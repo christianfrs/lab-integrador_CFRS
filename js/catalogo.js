@@ -2,6 +2,7 @@
 let inptTituloLibro = document.querySelector("#tituloLibro");
 let inptAutorLibro = document.querySelector("#autorLibro");
 let inptIsbnLibro = document.querySelector("#isbnLibro");
+let tbBodyLibros = document.querySelector("#tablaLibros")
 
 let btnAgregarLibro = document.querySelector("#btnAgregarLibro");
 
@@ -42,4 +43,40 @@ function agregarLibro() {
    inptIsbnLibro.value = "";
 
    alert("Libro agregado exitosamente")
+
+   mostrarLibros();
 }
+
+/* Funcion para mostrar todos los libros */
+function mostrarLibros(){
+   // Limpiar el tbody antes de renderizar
+   tbBodyLibros.innerHTML = "";
+
+   librosDisponibles.forEach( (elemnt, index) => {
+      tbBodyLibros.innerHTML += `
+        <tr>
+          <td class="border p-2">${elemnt.titulo}</td>
+          <td class="border p-2">${elemnt.autor}</td>
+          <td class="border p-2">${elemnt.isbn}</td>
+          <td class="border p-2">Disponible</td>
+          <td class="border p-2">
+            <button 
+               class="bg-red-500 text-white px-2" 
+               onclick="eliminarLibro(${index})"
+            >
+               Eliminar
+            </button>
+          </td>
+        </tr>
+      `
+   })
+}
+
+function eliminarLibro(index){
+   alert(`Libro con indice ${index} eliminado`)
+   librosDisponibles.splice(index, 1);
+   localStorage.setItem("librosDisponibles", JSON.stringify(librosDisponibles));
+   mostrarLibros();
+}
+
+mostrarLibros();
